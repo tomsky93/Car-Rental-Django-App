@@ -1,0 +1,12 @@
+{% extends "car_rental/base.html" %}
+
+{% block content %}
+<div class="container">
+    <form method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button class="button" type="submit">Sign Up!</button>
+</div>
+</form>
+</div>
+{% endblock %}

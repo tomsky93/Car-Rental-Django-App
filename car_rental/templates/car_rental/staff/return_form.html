@@ -1,0 +1,40 @@
+{% extends "car_rental/base.html" %}
+{% block content %}
+<style>
+  .is-overdue {
+    text-decoration: line-through;
+  }
+</style>
+<div class="container">
+  <h3>Return a vehicle</h3>
+  <h4> {{rental.vehicle}}</h4>
+  <br>
+  <div class="row">
+    <div class="column">
+      <ul class="details-view">
+        <li><span>Renter:</span> {{ rental.renter }}</li>
+        <li><span>Mileage start:</span> {{ rental.mileage_start }} km</li>
+        <li><span>Pick-up date:</span> {{ rental.availability_calendar.start_date| date:"d-m-Y" }}</li>
+        <li><span>Estimated return date:</span> {{ rental.availability_calendar.end_date| date:"d-m-Y" }}</li>
+        {% if rental.is_overdue %}
+        <li><span>Total days:</span><span><span
+              class="is-overdue">{{ rental.availability_calendar.days }}</span>{{ total_days }}</span></li>
+        <li><span>Total cost:</span><span><span
+              class="is-overdue">{{ rental.total_cost |floatformat:0 }}&nbsp€</span>{{ total_cost |floatformat:0 }}&nbsp€</span>
+        </li>
+        {% else %}
+        <li><span>Total days:</span> {{ total_days }}</li>
+        <li><span>Total cost:</span> {{ total_cost |floatformat:0 }}&nbsp€</li>
+        {% endif %}
+      </ul>
+    </div>
+    <div class="column">
+      <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Return" class="button-100">
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}

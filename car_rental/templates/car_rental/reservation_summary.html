@@ -1,0 +1,28 @@
+{% extends "car_rental/base.html" %}
+{% block content %}
+<div class="container">
+  <h3>Reservation Summary</h3>
+  <div class="row">
+    <div class="column">
+      <ul class="details-view">
+        <li><span>Reservation ID:</span>{{reservation.pk }}</li>
+        <li><span>Status:</span>{{ reservation.availability_calendar.get_status_display }}</li>
+        <li><span>Model</span>{{ reservation.vehicle }}</li>
+        <li><span>Pick-up date: </span>{{ reservation.availability_calendar.start_date | date:"d-m-Y" }}</li>
+        <li><span>Due date: </span>{{ reservation.availability_calendar.end_date | date:"d-m-Y" }}</li>
+        <li><span>Days:</span> {{ reservation.availability_calendar.days }}</li>
+        <li><span>Total cost:</span> {{ reservation.total_cost }}€</li>
+      </ul>
+      {% if user.is_staff %}
+      {% if reservation.availability_calendar.status == 'waiting' or  reservation.status == 'confirmed' %}
+      <a href="{% url 'reserve_and_rent' reservation.pk %}" class="button" style="margin-right:15px;">Rent</a>
+      {% endif %}
+      {% if reservation.availability_calendar.status == 'waiting' %}
+      <a href="{%url 'update_reservation' reservation.pk %}" class="button" style="margin-right:15px;">Modify reservation</a>
+      {% endif %}
+      {% endif %}
+      <a href="{% url 'reservation_list' %}" class="button"> Back</a>
+    </div>
+  </div>
+</div>
+{% endblock content %}

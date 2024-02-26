@@ -1,0 +1,12 @@
+{% extends "car_rental/base.html" %}
+{% load tags %}
+{% block content %}
+<div class="flex-container">
+    <div class="sidebar">
+        {% user_menu %}
+    </div>
+    <div class="content">
+        <h3>Hello, {{ user.first_name }}</h3>
+    </div>
+</div>
+{% endblock content %}

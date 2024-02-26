@@ -1,0 +1,71 @@
+{% extends "car_rental/base.html" %}
+{% load tags %}
+{% block content %}
+<div class="flex-container">
+  <div class="sidebar">
+    <h5>Staff View- Rental List</h5>
+    {% admin_menu %}
+  </div>
+  <div class="content">
+    <div class="table-container">
+      {% if rentals %}
+      <ul class="responsive-table">
+        <li class="table-header">
+          <div class="col col-20">Vehicle</div>
+          <div class="col col-10">Cost</div>
+          <div class="col col-15">Pick up date</div>
+          <div class="col col-15">Due date</div>
+          <div class="col col-10">Status</div>
+          <div class="col col-15">Return date</div>
+          {% for rent in rentals %}
+        <li class="table-row">
+          <div class="col col-20" data-label="Vehicle">
+            <a href="{{ rent.get_absolute_url }}"> {{ rent.vehicle }}</a>
+          </div>
+          <div class="col col-10" data-label="Cost">{{ rent.total_cost| floatformat:"0" }}€</div>
+          <div class="col col-15" data-label="Pick up date">{{ rent.availability_calendar.start_date | date:"d-m-Y" }}
+          </div>
+          <div class="col col-15" data-label="Due date"><span class="{% if rent.is_overdue %} text-danger {% endif %}">
+              {{ rent.availability_calendar.end_date|date:"d-m-Y" }}</span></div>
+          <div class="col col-10" data-label="Status">
+            {% if user.is_staff and rent.availability_calendar.status == "rented" %}
+            <a href="{% url 'return_form' rent.pk %}"><b>Return</b></a>
+            {% else %}
+            {{ rent.availability_calendar.get_status_display }}
+            {% endif %}
+          </div>
+          <div class="col col-15" data-label="Return date">
+            {% if rent.availability_calendar.return_date  %}
+            {{ rent.availability_calendar.return_date| date:"d-m-Y" }}
+            &nbsp;
+            <a href="{% url 'generate_invoice' rent.pk %}" target="_blank"><i
+                class="fa-solid fa-file-invoice fa-sm"></i></a>
+            {% else %}
+            <p>-</p>
+            {% endif %}
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      <div class="pagination">
+        <span class="step-links">
+          {% if rentals.has_previous %}
+          <a href="?page=1">&laquo; First</a>
+          <a href="?page={{ rentals.previous_page_number }}">Previous</a>
+          {% endif %}
+          <span class="current">
+            Page {{ rentals.number }} of {{ rentals.paginator.num_pages }}
+          </span>
+          {% if rentals.has_next %}
+          <a href="?page={{ rentals.next_page_number }}">Next</a>
+          <a href="?page={{ rentals.paginator.num_pages }}">Last &raquo;</a>
+          {% endif %}
+        </span>
+      </div>
+    </div>
+    {% else %}
+    <p>No vehicle has been rented yet.</p>
+  </div>
+</div>
+{% endif %}
+{% endblock content %}

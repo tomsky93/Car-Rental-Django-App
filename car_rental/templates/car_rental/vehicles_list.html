@@ -1,0 +1,55 @@
+{% extends "car_rental/base.html" %}
+{% load tags %}
+{% block content %}
+<div class="banner">
+    <div class="slogan">
+        <h1>Start your journey here</h1>
+    </div>
+</div>
+<div class="flex-container">
+    <div class="sidebar">
+        {% if request.user.is_authenticated %}
+        {% user_menu %}
+        {% endif %}
+    </div>
+    <div class="content">
+        {% if vehicles %}
+        <div class="table-container" style="width: 80% ;">
+            {% for vehicle in vehicles %}
+            <ul class="responsive-table">
+                <li class="table-row">
+                    <div class="col col-25">
+                        <img src="{{ vehicle.image.url}}" alt="Obraz produktu">
+                    </div>
+                    <div class="col col-25" data-label="Model">
+                        <a href="{{ vehicle.get_absolute_url }}">
+                            <p class="hover-underline-animation">{{ vehicle.brand }} {{ vehicle.model }}</p>
+                        </a>
+                    </div>
+                    <div class="col col-5" data-label="Current location">
+                        {{vehicle.location}}
+                    </div>
+                    <div class="col col-10" data-label="Price">{{vehicle.cost}}€/per day
+
+                    </div>
+                    <div class="col col-5" data-label="Status">
+                        {% if vehicle.availability %}
+                        <i class="fa-solid fa-check"></i>
+                        {% else %}
+                        <i class="fa-solid fa-xmark"></i>
+                        {% endif %}
+                    </div>
+                    <div class="col col-10">
+                        <a href="{% url 'reserve' vehicle.pk %}" class="button">Reserve</a>
+                    </div>
+                </li>
+            </ul>
+            {% endfor %}
+
+            {% else %}
+            <p> No vehicles available now. Try later. </p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock content %}

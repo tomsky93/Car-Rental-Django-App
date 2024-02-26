@@ -1,0 +1,15 @@
+# General
+*.log
+
+# IDE
+.vscode/ # VSCode settings
+
+# Python
+*.pyc
+env/
+venv/
+myenv/
+
+# Databases
+*.sqlite3
+

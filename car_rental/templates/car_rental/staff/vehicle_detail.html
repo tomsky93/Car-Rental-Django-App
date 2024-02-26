@@ -1,0 +1,66 @@
+{% extends "car_rental/base.html" %}
+{% block content %}
+<div class="container">
+  <h5>Staff View</h5>
+  <div class="row">
+    <div class="column img">
+      <img src="{{ vehicle.image.url }}" alt="vehicle-image" style="max-width: 400px;">
+    </div>
+    <div class="column">
+      <ul class="details-view">
+        <li><span>Model: </span>
+          <h5>{{vehicle.brand}} - {{vehicle.model}}</h5>
+        </li>
+        <li><span>Price: </span>{{vehicle.cost}} €/per day &nbsp;<a href="{% url 'edit_vehicle' vehicle.pk %}"><i
+              class="fa-solid fa-pen"></i></a></i></li>
+        <li><span>Mileage: </span>{{vehicle.mileage}} km</li>
+        <li><span>VIN Number:</span>{{vehicle.VIN_number}}</li>
+        <li><span>Licencse plate:</span>{{vehicle.registration_plate}}</li>
+        <li><span>Status: </span> {% if vehicle.availability %}
+          <i class="fa-solid fa-check"></i>
+          {% else %}
+          <i class="fa-solid fa-xmark"></i>
+          {% endif %}</li>
+        <li><span>Location:</span>{{vehicle.location}}</li>
+        <li><span><a href="{% url 'vehicles' %}" class="button">Back</a></span></li>
+      </ul>
+    </div>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+
+  
+    <div class="column">
+
+      <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.10/index.global.min.js'></script>
+
+        <div id='calendar' style="min-width: 500px; width: 600px;">
+  
+   
+      <script>
+          document.addEventListener('DOMContentLoaded', function() {
+              var calendarEl = document.getElementById('calendar');
+              var calendar = new FullCalendar.Calendar(calendarEl, {
+
+              contentHeight: 500,
+              locale: 'pl',
+              initialView: 'dayGridMonth',
+
+              events: [
+                {% for event in events_json %}
+                      {
+                title: "{{ event.title }}",
+                start: '{{ event.start }}',
+                end: '{{ event.end }}',
+                color: "{{ event.color }}",
+              },
+              {% endfor %}
+                  ]
+              });
+                calendar.render();
+          });
+      </script>
+</div>
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

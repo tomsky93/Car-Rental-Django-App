@@ -1,0 +1,20 @@
+{% extends "car_rental/base.html" %}
+{% block content %}
+<div class="container">
+  <h3>Rental Summary</h3>
+  <div class="column">
+    <ul class="details-view">
+      <li><span>Rental ID:</span>{{rental.pk}}</li>
+      <li><span>Model: </span>{{ rental.vehicle }}</li>
+      <li><span>Pick-up date:</span> {{ rental.availability_calendar.start_date| date:"d-m-Y" }}</li>
+      <li><span>Due date:</span> {{ rental.availability_calendar.end_date| date:"d-m-Y" }}</li>
+      <li><span>Days:</span> {{ rental.availability_calendar.days }}</li>
+      <li><span>Total cost:</span>{{ rental.total_cost| floatformat:"0" }}€</li>
+      {% if rental.availability_calendar.return_date %}
+      <li><span>Return date:</span>{{ rental.availability_calendar.return_date| date:"d-m-Y" }}</li>
+      {% endif %}
+    </ul>
+    <a href="{% url 'rental_list' %}" class="button"> Back</a>
+  </div>
+</div>
+{% endblock content %}

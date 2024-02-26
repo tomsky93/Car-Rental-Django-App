@@ -1,0 +1,47 @@
+{% extends "car_rental/base.html" %}
+{% block content %}
+<div class="container">
+  <br>
+  <form method="post">
+    <div class="form-row">
+      <div class="col">
+        <label for="brand">Brand</label>
+        <input type="text" class="form-control" id="brand" placeholder="{{vehicle.brand}}" disabled>
+      </div>
+      <div class="col">
+        <label for="model">Model</label>
+        <input type="text" class="form-control" id="model" placeholder="{{vehicle.model}}" readonly>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col">
+        <label form="vin">VIN</label>
+        <input type="text" class="form-control" id="vin" placeholder={{vehicle.VIN_number}} readonly>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col">
+        <label for="registration_plate">Registration plate</label>
+        <input type="text" class="form-control" id="registration_plate" placeholder="{{vehicle.registration_plate}}"
+          readonly>
+      </div>
+      <div class="col">
+        <label for="mileage">Current mileage</label>
+        <input type="text" class="form-control" id="mileage" placeholder="{{vehicle.mileage}}" readonly>
+      </div>
+    </div>
+    {% csrf_token %}
+    <div class="form-row">
+      <div class="col">
+        <label for="price">Price per day</label>
+        <input type="text" class="form-control" id="cost" name="cost" placeholder="{{vehicle.price}}"
+          value="{{vehicle.cost}}">
+      </div>
+    </div>
+    <div class="col">
+      <br>
+      <input type="submit" value="Confirm" class="button">
+    </div>
+  </form>
+</div>
+{% endblock content %}

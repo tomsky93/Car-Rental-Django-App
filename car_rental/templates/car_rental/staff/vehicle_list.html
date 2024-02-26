@@ -1,0 +1,48 @@
+{% extends "car_rental/base.html" %}
+{% load tags %}
+{% block content %}
+{% if vehicles %}
+<div class="flex-container">
+  <div class="sidebar">
+    <h5>Staff View - Vehicle List</h5>
+    {% admin_menu %}
+  </div>
+  <div class="content">
+    <div class="table-container">
+      <ul class="responsive-table">
+        <li class="table-header">
+          <div class="col col-25">Vehicle</div>
+          <div class="col col-10">Plate</div>
+          <div class="col col-20">VIN</div>
+          <div class="col col-10">Mileage</div>
+          <div class="col col-10">Cost</div>
+          <div class="col col-10">Status</div>
+          <div class="col col-10">Current location</div>
+          {% for vehicle in vehicles %}
+        </li>
+        <li class="table-row">
+          <div class="col col-25" data-label="Vehicle"><a href="{{ vehicle.get_absolute_url }}">{{ vehicle.brand}} -
+              {{ vehicle.model}}</a></div>
+          <div class="col col-10" data-label="Registration plate">{{ vehicle.registration_plate }}</div>
+          <div class="col col-20" data-label="VIN">{{ vehicle.VIN_number  }}</div>
+          <div class="col col-10" data-label="Mileage">{{ vehicle.mileage }}</div>
+          <div class="col col-10" data-label="Cost">{{ vehicle.cost }}€</div>
+          <div class="col col-10" data-label="Status"> {% if vehicle.availability %}
+            <i class="fa-solid fa-check"></i>
+            {% else %}
+            <i class="fa-solid fa-xmark"></i>
+            {% endif %}
+          </div>
+          <div class="col col-10" data-label="Current location">
+            {{ vehicle.location }}
+          </div>
+        </li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <p> No vehicles available now. Try later. </p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,67 @@
+{% extends "car_rental/base.html" %}
+{% block content %}
+<div class="banner">
+    <div class="slogan">
+        <h1>Start your journey here</h1>
+    </div>
+    <div class="banner form">
+        <form method="post">
+            {% csrf_token %}
+            {% for field in form %}
+            <p>{{ field }}</p>
+            {% endfor %}
+            <br>
+            <button type="submit" class="button-100">Search</button>
+        </form>
+    </div>
+</div>
+<div class="pannels-homepage">
+    <div class="categories">
+        <img src=".\static\images\city.png" alt="city">
+    </div>
+    <div class="categories">
+        <img src=".\static\images\electric.png" alt="electric">
+    </div>
+    <div class="categories">
+        <img src=".\static\images\sedan.png" alt="sedan">
+    </div>
+    <div class="categories">
+        <img src=".\static\images\suv.png" alt="suv">
+    </div>
+</div>
+
+<div class="pannels-homepage">
+    <div>
+        <h1 data-target="6" class="count">0</h1>
+        <h1>&nbsp;locations</h1>
+    </div>
+    <div>
+        <h1>+<h1 data-target="50" class="count">0</h1>
+            <h1>&nbsp;cars</h1>
+    </div>
+    <div>
+        <h1>+<h1 data-target="666" class="count">0<h1>&nbsp;customers</h1>
+    </div>
+</div>
+</div>
+<script>
+    const counters = document.querySelectorAll(".count");
+    const speed = 120;
+    counters.forEach(counter => {
+        const updateCount = () => {
+            const target = +counter.getAttribute("data-target");
+            const count = +counter.innerText;
+            const difference = target - count;
+            let increment = Math.max(Math.trunc(difference / speed), 1);
+            if (count < target) {
+                counter.innerText = count + increment;
+                setTimeout(updateCount, 1);
+            } else {
+                counter.innerText = target;
+            }
+        };
+        updateCount();
+    });
+</script>
+</div>
+{% endblock content %}

@@ -1,0 +1,24 @@
+{% extends "car_rental/base.html" %}
+{% block content %}
+<div class="container">
+  <h2>Rent a vehicle</h2>
+  <h4>{{ reservation.vehicle }}</h4>
+  <br>
+  <div class="row">
+    <div class="column">
+      <img src="{{ reservation.vehicle.image.url }}" alt="car-img" style="max-width:300px;">
+      <ul class="details-view">
+        <li><span>Renter:</span> {{ reservation.renter }}</li>
+        <li><span>Current mileage:</span> {{ reservation.vehicle.mileage }} km</li>
+      </ul>
+    </div>
+    <div class="column">
+      <form method="post" style="width:200px;">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Rent" class="button-100">
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,27 @@
+{% extends "car_rental/base.html" %}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <div class="column">
+      <img src="{{ vehicle.image.url }}" alt="vehicle-image" style="max-width: 400px;">
+    </div>
+    <div class="column">
+      <h1>{{vehicle.brand}} - {{vehicle.model}}</h1>
+      <p>price {{vehicle.cost}} €/per day</p>
+      <p>Location: {{vehicle.location}} </p>
+      </li>
+      <br>
+      <a href="{% url 'reserve' vehicle.pk %}" class="button">Reserve</a>
+    </div>
+  </div>
+  <div class="row">
+    <div class="column-full">
+      <h2>Description</h2>
+      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Tempore unde, ipsum minus cumque laboriosam assumenda
+        numquam asperiores culpa dolores rerum accusantium aperiam? Autem et molestias cumque magnam consequatur, non
+        exercitationem!</p>
+    </div>
+  </div>
+
+</div>
+{% endblock content %}

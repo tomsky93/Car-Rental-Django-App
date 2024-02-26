@@ -1,0 +1,81 @@
+{% extends "car_rental/base.html" %}
+{% load tags %}
+{% block content %}
+<div class="flex-container">
+    <div class="sidebar">
+        {% user_menu %}
+    </div>
+    <div class="content">
+        <div class="table-container">
+            {% if reservations %}
+            <ul class="responsive-table">
+                <li class="table-header">
+                    <div class="col col-10">Reservation ID</div>
+                    <div class="col col-20">Vehicle</div>
+                    <div class="col col-10">Cost</div>
+                    <div class="col col-10">Pick up date</div>
+                    <div class="col col-10">Due date</div>
+                    <div class="col col-10">Status</div>
+                    <div class="col col-5"></div>
+                    {% for reservation in reservations %}
+                </li>
+                <li class="table-row">
+                    <div class="col col-10" data-label="Rental ID"><a
+                            href="{{ reservation.get_absolute_url }}">{{reservation.pk}}</a></div>
+                    <div class="col col-20" data-label="Vehicle">{{ reservation.vehicle }}</div>
+                    <div class="col col-10" data-label="Cost">{{ reservation.total_cost| floatformat:"0" }}€</div>
+                    <div class="col col-10" data-label="Pick up date">
+                        {{ reservation.availability_calendar.start_date | date:"d-m-Y" }}</div>
+                    <div class="col col-10" data-label="Due date">
+                        {{ reservation.availability_calendar.end_date | date:"d-m-Y" }}</div>
+                    
+                    <div class="col col-10" data-label="Status">
+                        {% if reservation.expire_reservation %}text-danger{% endif %}
+                        {% if reservation.availability_calendar.status == "waiting" %}
+                        <form method="post" action="{% url 'manage_reservation' reservation.pk %}">
+                            {% csrf_token %}
+                            <input type="submit" value="Confirm Reservation">
+                        </form>
+                        {% elif reservation.availability_calendar.status == "confirmed" %}
+                        <form method="post" action="{% url 'manage_reservation' reservation.pk %}">
+                            {% csrf_token %}
+                            <input type="submit" value="Cancel reservation">
+                        </form>
+                        
+                        {% else %}
+                        {{ reservation.availability_calendar.get_status_display }}
+                        {% endif %}
+                        </div>
+                        <div class="col col-5" data-label="">
+                            {% if reservation.availability_calendar.status == "waiting" %}
+                            <a href="{%url 'update_reservation' reservation.pk %}"><i class="fa-solid fa-pen"></i></a>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    
+                </li>
+            </ul>
+            {% else %}
+            <p>
+                <h4> No reservations yet.</h4>
+            </p>
+            {% endif %}
+            <div class="pagination">
+                <span class="step-links">
+                    {% if reservations.has_previous %}
+                    <a href="?page=1">&laquo; first</a>
+                    <a href="?page={{ reservations.previous_page_number }}">previous</a>
+                    {% endif %}
+                    <span class="current">
+                        Page {{ reservations.number }} of {{ reservations.paginator.num_pages }}
+                    </span>
+                    {% if reservations.has_next %}
+                    <a href="?page={{ reservations.next_page_number }}">next</a>
+                    <a href="?page={{ reservations.paginator.num_pages }}">last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,109 @@
+{% extends "car_rental/base.html" %}
+{% load tags %}
+{% block content %}
+<div class="flex-container">
+  <div class="sidebar">
+    <h5>Staff View- Dashboard</h5>
+    {% admin_menu %}
+  </div>
+  <div class="content">
+    <h3>Hello, {{ request.user }} &nbsp; {{ date| date:"d-m-Y" }}&nbsp; <a href="{% url 'dashboard' %}"><i
+          class="fa-solid fa-arrows-rotate fa-sm"></i></a> </h3>
+    <div class="container">
+      <div class="row row-4">
+        <div class="panel">
+          <h4>Today earnings:<p>{{ today_earnings_value }}€</p>
+          </h4>
+        </div>
+        <div class="panel">
+          <h4>Today reservations:<p>{{ today_reservations }}</p>
+          </h4>
+        </div>
+        <div class="panel">
+          <h4>Today rentals:<p>{{ today_rentals }}</p>
+          </h4>
+        </div>
+        <div class="panel">
+          <h4>Available vehicles:<p>{{ available_vehicles }}</p>
+          </h4>
+        </div>
+      </div>
+      <div class="row row-4">
+        <div class="panel" style="height: auto;">
+          <h4>Currently rented vehicles:<p>{{ rented_vehicles }}</p>
+          </h4>
+        </div>
+        <div class="panel" style="height: auto;">
+          <h4>Reservations awaiting confirmation:<p>{{ pending_reservations }}</p>
+          </h4>
+        </div>
+        <div class="panel" style="height: auto;">
+          <h4>Vehicles awaiting return:<p>{{ vehicles_awaiting_return }}</h4><span class="text-danger">
+            {% if overdue_rentals %} Overdue rentals: {{ overdue_rentals }}{% endif %}</span></p>
+        </div>
+      </div>
+      <div class="row row-4">
+        <div class="panel" style="height: auto;">
+          <h4>Monthly earnings:<p>{{monthly_earnings}}€</p>
+          </h4>
+        </div>
+        <div class="panel" style="height: auto;">
+          <h4>Monthly rentals:<p>{{monthly_rentals}}</p>
+          </h4>
+        </div>
+
+        <div class="row row-3">
+          <div class="panel large" style="height: auto;">
+            <h4>Latest rentals</h4>
+            <table>
+              <tr>
+                <th>Vehicle</th>
+                <th>Start Date</th>
+                <th>Due Date</th>
+              </tr>
+              {% for rental in latest_rentals %}
+              <td> <a href="{{ rental.get_absolute_url }}">{{ rental.vehicle }}</a></td>
+              <td>{{ rental.availability_calendar.start_date | date:"d-m-Y" }}</td>
+              <td>{{ rental.availability_calendar.end_date|date:"d-m-Y" }}</td>
+              </tr>
+              {% endfor %}
+            </table>
+            <br>
+            <a href="{% url 'rental_list' %}" class="button">Show more</a>
+          </div>
+          <div class="panel large" style="height: auto;">
+            <h4>Latest reservations</h4>
+            <table>
+              <tr>
+                <th>Vehicle</th>
+                <th>Start Date</th>
+                <th>Due Date</th>
+              </tr>
+              {% for reservation in latest_reservations %}
+              <tr>
+                <td> <a href="{{ reservation.get_absolute_url }}"> {{ reservation.vehicle }}</a></td>
+                <td>{{ reservation.availability_calendar.start_date | date:"d-m-Y" }}</td>
+                <td>{{ reservation.availability_calendar.end_date|date:"d-m-Y" }}</td>
+              </tr>
+              {% endfor %}
+            </table>
+            <br>
+            <a href="{% url 'reservation_list' %}" class="button">Show more</a>
+          </div>
+          <div class="panel large" style="height: auto;">
+            <h4>Number of vehicles in locations:</h4>
+            <table>
+              {% for location in vehicles_per_location %}
+              <tr>
+                <td>{{ location.city }}</td>
+                <td>{{ location.total }}</td>
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
