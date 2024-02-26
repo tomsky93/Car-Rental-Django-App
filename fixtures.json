@@ -1,4 +1,4 @@
-﻿[
+[
     {
         "model": "car_rental.brand",
         "pk": 1,
@@ -68,7 +68,7 @@
         "model": "car_rental.location",
         "pk": 3,
         "fields": {
-            "city": "Gda˝sk",
+            "city": "Gdańsk",
             "slug": "gdansk"
         }
     },
@@ -76,7 +76,7 @@
         "model": "car_rental.location",
         "pk": 4,
         "fields": {
-            "city": "Krakˇw",
+            "city": "Kraków",
             "slug": "krakow"
         }
     },
@@ -84,7 +84,7 @@
         "model": "car_rental.location",
         "pk": 5,
         "fields": {
-            "city": "Pozna˝",
+            "city": "Poznań",
             "slug": "poznan"
         }
     },
@@ -92,8 +92,8 @@
         "model": "car_rental.location",
         "pk": 6,
         "fields": {
-            "city": "Wroc│aw",
-            "slug": "wrocaw"
+            "city": "Wrocław",
+            "slug": "wroclaw"
         }
     },
     {
@@ -994,5 +994,5 @@
             "location": 5,
             "category": 2
         }
-    }]
- 
+    }
+]
